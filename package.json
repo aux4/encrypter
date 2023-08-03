@@ -1,7 +1,7 @@
 {
   "name": "@aux4/encrypt",
   "version": "1.0.1",
-  "description": "Encryption CLI",
+  "description": "Aux4 encrypt and decrypt tool",
   "main": "index.js",
   "preferGlobal": true,
   "bin": {
