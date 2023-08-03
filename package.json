@@ -1,6 +1,6 @@
 {
   "name": "@aux4/encrypt",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Encryption CLI",
   "main": "index.js",
   "preferGlobal": true,
