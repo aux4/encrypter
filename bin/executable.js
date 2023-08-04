@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const colors = require("colors");
 const { Engine, Output: out } = require("@aux4/engine");
 const Secret = require("../lib/Secret");
