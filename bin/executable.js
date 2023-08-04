@@ -4,7 +4,6 @@ const Secret = require("../lib/Secret");
 const Crypto = require("../lib/Crypto");
 const { readStream } = require("../lib/Utils");
 
-const { AUX4_SECRET_KEY } = process.env;
 const args = process.argv.slice(2);
 
 const aux4 = {
@@ -32,12 +31,12 @@ const aux4 = {
           execute: async (command, action) => {
             const params = command.params;
 
-            const secret = (await params.secret) || AUX4_SECRET_KEY;
             let text = (await params.text) || action.join(" ");
             if (!text || text.length === 0) {
               text = await readStream(process.stdin);
             }
 
+            const secret = await params.secret;
             const crypto = new Crypto(secret);
 
             try {
@@ -66,7 +65,7 @@ const aux4 = {
           execute: async (command, action) => {
             const params = command.params;
 
-            const secret = (await params.secret) || AUX4_SECRET_KEY;
+            const secret = await params.secret;
             let token = (await params.token) || action.join(" ");
             if (!token || token.length === 0) {
               token = await readStream(process.stdin);
