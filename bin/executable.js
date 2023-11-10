@@ -1,14 +1,20 @@
 #!/usr/bin/env node
 
 const colors = require("colors");
-const { Engine, Output: out } = require("@aux4/engine");
+const {
+  Engine,
+  Output: out,
+  CommandParameters,
+  EnvironmentVariableParameterRetriever,
+  DefaultParameterRetriever,
+  PromptParameterRetriever,
+  ConfigParameterRetriever
+} = require("@aux4/engine");
 const Secret = require("../lib/Secret");
 const Crypto = require("../lib/Crypto");
 const { readStream } = require("../lib/Utils");
 
-const args = process.argv.slice(2);
-
-const aux4 = {
+const config = {
   profiles: [
     {
       name: "main",
@@ -30,15 +36,13 @@ const aux4 = {
         },
         {
           name: "encrypt",
-          execute: async (command, action) => {
-            const params = command.params;
-
+          execute: async (params, action) => {
             let text = (await params.text) || action.join(" ");
             if (!text || text.length === 0) {
               text = await readStream(process.stdin);
             }
 
-            const secret = await params.secret;
+            const secret = (await params.secret) || undefined;
             const crypto = new Crypto(secret);
 
             try {
@@ -53,21 +57,21 @@ const aux4 = {
             variables: [
               {
                 name: "secret",
-                text: "Secret key"
+                text: "Secret key",
+                default: ""
               },
               {
                 name: "text",
-                text: "Text to encrypt"
+                text: "Text to encrypt",
+                default: ""
               }
             ]
           }
         },
         {
           name: "decrypt",
-          execute: async (command, action) => {
-            const params = command.params;
-
-            const secret = await params.secret;
+          execute: async (params, action) => {
+            const secret = (await params.secret) || undefined;
             let token = (await params.token) || action.join(" ");
             if (!token || token.length === 0) {
               token = await readStream(process.stdin);
@@ -87,11 +91,13 @@ const aux4 = {
             variables: [
               {
                 name: "secret",
-                text: "Secret key"
+                text: "Secret key",
+                default: ""
               },
               {
                 name: "token",
-                text: "Token to decrypt"
+                text: "Token to decrypt",
+                default: ""
               }
             ]
           }
@@ -101,7 +107,24 @@ const aux4 = {
   ]
 };
 
+function defaultCommandParameterFactory(config) {
+  const commandParametersFactory = CommandParameters.newInstance();
+  commandParametersFactory.register(new EnvironmentVariableParameterRetriever());
+  commandParametersFactory.register(ConfigParameterRetriever.with(config));
+  commandParametersFactory.register(new DefaultParameterRetriever());
+  commandParametersFactory.register(new PromptParameterRetriever());
+  return commandParametersFactory;
+}
+
 (async () => {
-  const engine = new Engine({ aux4 });
-  await engine.run(args);
+  const engine = new Engine({ aux4: config, commandParametersFactory: defaultCommandParameterFactory(config) });
+
+  const args = process.argv.splice(2);
+
+  try {
+    await engine.run(args);
+  } catch (e) {
+    console.error(e.message.red);
+    process.exit(1);
+  }
 })();
