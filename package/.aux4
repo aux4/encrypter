@@ -1,0 +1,99 @@
+{
+  "profiles": [
+    {
+      "name": "main",
+      "commands": [
+        {
+          "name": "encrypter",
+          "execute": [
+            "profile:encrypter"
+          ],
+          "help": {
+            "text": "aux4 encrypter"
+          }
+        }
+      ]
+    },
+    {
+      "name": "encrypter",
+      "commands": [
+        {
+          "name": "generate-secret",
+          "execute": [
+            "${packageDir}/aux4-encrypter generate-secret ${length}"
+          ],
+          "help": {
+            "text": "generate a random secret",
+            "variables": [
+              {
+                "name": "length",
+                "text": "the length of the secret",
+                "default": "32",
+                "arg": true
+              }
+            ]
+          }
+        },
+        {
+          "name": "encrypt",
+          "execute": [
+            "stdin:${packageDir}/aux4-encrypter encrypt '${secret}' '${iv}' '${text}'"
+          ],
+          "help": {
+            "text": "encrypt a text",
+            "variables": [
+              {
+                "name": "iv",
+                "text": "initialization vector"
+              },
+              {
+                "name": "secret",
+                "text": "secret key"
+              },
+              {
+                "name": "text",
+                "text": "text to encrypt",
+                "default": "",
+                "arg": true
+              }
+            ]
+          }
+        },
+        {
+          "name": "decrypt",
+          "execute": [
+            "stdin:${packageDir}/aux4-encrypter decrypt '${secret}' '${iv}' '${text}'"
+          ],
+          "help": {
+            "text": "decrypt a text",
+            "variables": [
+              {
+                "name": "iv",
+                "text": "initialization vector"
+              },
+              {
+                "name": "secret",
+                "text": "secret key"
+              },
+              {
+                "name": "text",
+                "text": "text to decrypt",
+                "default": "",
+                "arg": true
+              }
+            ]
+          }
+        },
+        {
+          "name": "version",
+          "execute": [
+            "${packageDir}/aux4-encrypter version"
+          ],
+          "help": {
+            "text": "show encrypter version"
+          }
+        }
+      ]
+    }
+  ]
+}
