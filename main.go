@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"bufio"
+	"strings"
 )
 
 func main() {
@@ -23,18 +25,11 @@ func main() {
 }
 
 func executeGenerateSecret(args []string) {
-	params, err := ParseArgs(args, []Parameter{
-		Param("length", true, "32"),
-	})
+  lengthParam := args[0]
 
+	length, err := strconv.Atoi(lengthParam)
 	if err != nil {
-		printError(err.Error())
-		os.Exit(1)
-	}
-
-	length, err := strconv.Atoi(params.Get("length"))
-	if err != nil {
-		printError("Invalid length: %s", params.Get("length"))
+		printError("Invalid length: %s", lengthParam)
 		os.Exit(1)
 	}
 
@@ -48,20 +43,18 @@ func executeGenerateSecret(args []string) {
 }
 
 func executeEncrypt(args []string) {
-	params, err := ParseArgs(args, []Parameter{
-		Param("secret", true, ""),
-		Param("iv", true, ""),
-		StdInParam("text", true),
-	})
+  secret := args[0]
+	initVector := args[1]
 
-	if err != nil {
-		printError(err.Error())
-		os.Exit(1)
-	}
+  var text string
 
-	text := params.Get("text")
-	secret := params.Get("secret")
-	initVector := params.Get("iv")
+  if len(args) > 2 {
+    text = args[2]
+  }
+
+  if text == "" {
+    text = readStdIn()
+  }
 
 	encrypted, err := encrypt(secret, initVector, text)
 	if err != nil {
@@ -73,20 +66,18 @@ func executeEncrypt(args []string) {
 }
 
 func executeDecrypt(args []string) {
-	params, err := ParseArgs(args, []Parameter{
-		Param("secret", true, ""),
-		Param("iv", true, ""),
-		StdInParam("text", true),
-	})
+  secret := args[0]
+	initVector := args[1]
 
-	if err != nil {
-		printError(err.Error())
-		os.Exit(1)
-	}
+  var text string
 
-	text := params.Get("text")
-	secret := params.Get("secret")
-	initVector := params.Get("iv")
+  if len(args) > 2 {
+    text = args[2]
+  } 
+
+  if text == "" {
+    text = readStdIn()
+  }
 
 	decrypted, err := decrypt(secret, initVector, text)
 	if err != nil {
@@ -97,11 +88,22 @@ func executeDecrypt(args []string) {
 	printOutput(decrypted)
 }
 
+func readStdIn() string {
+	value := strings.Builder{}
+
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		value.WriteString(scanner.Text())
+	}
+
+	return value.String()
+}
+
 func printError(format string, args ...any) {
   fmt.Fprintf(os.Stderr, format + "\n", args...)
 }
 
-func printOutput(format string, args ...any) {
-  fmt.Fprintf(os.Stdout, format, args...)
+func printOutput(format string) {
+  fmt.Fprint(os.Stdout, format)
 }
 

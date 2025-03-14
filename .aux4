@@ -3,6 +3,77 @@
     {
       "name": "main",
       "commands": [
+        {
+          "name": "release",
+          "execute": [
+            "aux4 build all",
+            "alias:aux4 aux4 releaser increment-version --dir package",
+            "set:version=!aux4 aux4 releaser get-version --dir package",
+            "rm -f package/*.zip",
+            "cd package && aux4 aux4 pkger build .",
+            "cd package && aux4 aux4 pkger publish aux4_encrypter_${version}.zip"
+          ],
+          "help": {
+            "text": "release aux4 encrypter"
+          }
+        },
+        {
+          "name": "build",
+          "execute": [
+            "profile:build"
+          ],
+          "help": {
+            "text": "build the package"
+          }
+        }    
+      ]
+    },
+    {
+      "name": "build",
+      "commands": [
+        {
+          "name": "darwin",
+          "execute": [
+            "GOOS=darwin GOARCH=amd64 go build -o package/dist/darwin/amd64/aux4-encrypter .",
+            "GOOS=darwin GOARCH=arm64 go build -o package/dist/darwin/arm64/aux4-encrypter ."
+          ],
+          "help": {
+            "text": "build the app for darwin"
+          }
+        },
+        {
+          "name": "linux",
+          "execute": [
+            "GOOS=linux GOARCH=amd64 go build -o package/dist/linux/amd64/aux4-encrypter .",
+            "GOOS=linux GOARCH=arm64 go build -o package/dist/linux/arm64/aux4-encrypter .",
+            "GOOS=linux GOARCH=386 go build -o package/dist/linux/386/aux4-encrypter ."
+          ],
+          "help": {
+            "text": "build the app for linux"
+          }
+        },
+        {
+          "name": "windows",
+          "execute": [
+            "GOOS=windows GOARCH=amd64 go build -o package/dist/windows/amd64/aux4-encrypter.exe .",
+            "GOOS=windows GOARCH=arm64 go build -o package/dist/windows/arm64/aux4-encrypter.exe .",
+            "GOOS=windows GOARCH=386 go build -o package/dist/windows/386/aux4-encrypter.exe ."
+          ],
+          "help": {
+            "text": "build the app for windows"
+          }
+        },
+        {
+          "name": "all",
+          "execute": [
+            "aux4 build darwin",
+            "aux4 build linux",
+            "aux4 build windows"
+          ],
+          "help": {
+            "text": "build the app for all platforms"
+          }
+        }
       ]
     }
   ]

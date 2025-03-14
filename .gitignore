@@ -49,3 +49,6 @@ coverage
 # build
 build
 
+package/dist/**
+
+**/*.zip
