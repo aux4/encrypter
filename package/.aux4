@@ -1,7 +1,7 @@
 {
   "scope": "aux4",
   "name": "encrypter",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "aux4 encryption tool",
   "license": "Apache-2.0",
   "profiles": [
