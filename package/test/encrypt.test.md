@@ -48,3 +48,15 @@ rm -f hello.txt
 ```expect
 9V3GJr82MrlrEpZKyUF5OA==
 ```
+
+### Multiple texts
+
+```execute
+aux4 encrypter encrypt --iv nhBGMMMQDJeMncEs --secret 9j48xBeBCQeV7R6Gnhe1V3acoBSS7ile --text "Hello" --text "World" --text "Test"
+```
+
+```expect
+iOgicUiHYmWpbq41dfiN0Q==
+hmEsKxb2XqCAQ2eRSY0mPA==
+N7m7RL3+045hv6/0TA2QjA==
+```

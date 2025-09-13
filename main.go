@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"bufio"
 	"strings"
+	"encoding/json"
 )
 
 func main() {
@@ -43,49 +44,89 @@ func executeGenerateSecret(args []string) {
 }
 
 func executeEncrypt(args []string) {
-  secret := args[0]
-	initVector := args[1]
+	var secret, initVector, textArray string
 
-  var text string
-
-  if len(args) > 2 {
-    text = args[2]
-  }
-
-  if text == "" {
-    text = readStdIn()
-  }
-
-	encrypted, err := encrypt(secret, initVector, text)
-	if err != nil {
-		printError("Error encrypting text: %s %s", text, err.Error())
-		os.Exit(1)
+	if len(args) > 0 {
+		secret = args[0]
+	}
+	if len(args) > 1 {
+		initVector = args[1]
+	}
+	if len(args) > 2 {
+		textArray = args[2]
 	}
 
-	printOutput(encrypted)
+	var texts []string
+
+	if textArray != "" {
+		err := json.Unmarshal([]byte(textArray), &texts)
+		if err != nil {
+			printError("Error parsing text array: %s", err.Error())
+			os.Exit(1)
+		}
+	}
+
+	if len(texts) == 0 {
+		text := readStdIn()
+		encrypted, err := encrypt(secret, initVector, text)
+		if err != nil {
+			printError("Error encrypting text: %s %s", text, err.Error())
+			os.Exit(1)
+		}
+		printOutput(encrypted)
+	} else {
+		for _, text := range texts {
+			encrypted, err := encrypt(secret, initVector, text)
+			if err != nil {
+				printError("Error encrypting text: %s %s", text, err.Error())
+				os.Exit(1)
+			}
+			fmt.Println(encrypted)
+		}
+	}
 }
 
 func executeDecrypt(args []string) {
-  secret := args[0]
-	initVector := args[1]
+	var secret, initVector, textArray string
 
-  var text string
-
-  if len(args) > 2 {
-    text = args[2]
-  } 
-
-  if text == "" {
-    text = readStdIn()
-  }
-
-	decrypted, err := decrypt(secret, initVector, text)
-	if err != nil {
-		printError("Error decrypting text: %s %s", text, err.Error())
-		os.Exit(1)
+	if len(args) > 0 {
+		secret = args[0]
+	}
+	if len(args) > 1 {
+		initVector = args[1]
+	}
+	if len(args) > 2 {
+		textArray = args[2]
 	}
 
-	printOutput(decrypted)
+	var texts []string
+
+	if textArray != "" {
+		err := json.Unmarshal([]byte(textArray), &texts)
+		if err != nil {
+			printError("Error parsing text array: %s", err.Error())
+			os.Exit(1)
+		}
+	}
+
+	if len(texts) == 0 {
+		text := readStdIn()
+		decrypted, err := decrypt(secret, initVector, text)
+		if err != nil {
+			printError("Error decrypting text: %s %s", text, err.Error())
+			os.Exit(1)
+		}
+		printOutput(decrypted)
+	} else {
+		for _, text := range texts {
+			decrypted, err := decrypt(secret, initVector, text)
+			if err != nil {
+				printError("Error decrypting text: %s %s", text, err.Error())
+				os.Exit(1)
+			}
+			fmt.Println(decrypted)
+		}
+	}
 }
 
 func readStdIn() string {

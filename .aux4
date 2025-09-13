@@ -20,7 +20,16 @@
         {
           "name": "build",
           "execute": [
-            "profile:build"
+            "aux4 builder all"
+          ],
+          "help": {
+            "text": "Build the package for all platforms"
+          }
+        },
+        {
+          "name": "builder",
+          "execute": [
+            "profile:builder"
           ],
           "help": {
             "text": "build the package"
@@ -29,7 +38,7 @@
       ]
     },
     {
-      "name": "build",
+      "name": "builder",
       "commands": [
         {
           "name": "darwin",

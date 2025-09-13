@@ -48,3 +48,15 @@ rm -f token.txt
 ```expect
 Hello World
 ```
+
+### Multiple texts
+
+```execute
+aux4 encrypter decrypt --iv nhBGMMMQDJeMncEs --secret 9j48xBeBCQeV7R6Gnhe1V3acoBSS7ile --text "iOgicUiHYmWpbq41dfiN0Q==" --text "hmEsKxb2XqCAQ2eRSY0mPA==" --text "N7m7RL3+045hv6/0TA2QjA=="
+```
+
+```expect
+Hello
+World
+Test
+```
