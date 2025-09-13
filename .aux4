@@ -4,20 +4,6 @@
       "name": "main",
       "commands": [
         {
-          "name": "release",
-          "execute": [
-            "aux4 build all",
-            "alias:aux4 aux4 releaser increment-version --dir package",
-            "set:version=!aux4 aux4 releaser get-version --dir package",
-            "rm -f package/*.zip",
-            "cd package && aux4 aux4 pkger build .",
-            "cd package && aux4 aux4 pkger publish aux4_encrypter_${version}.zip"
-          ],
-          "help": {
-            "text": "release aux4 encrypter"
-          }
-        },
-        {
           "name": "build",
           "execute": [
             "aux4 builder all"
