@@ -1,6 +1,12 @@
-# aux4 encrypter
+# aux4/encrypter
 
-aux4 encrypter is an encryption tool that uses AES-256-CBC algorithm to encrypt and decrypt text.
+Encryption tool that uses AES-256-CBC algorithm to encrypt and decrypt text.
+
+## Installation
+
+```bash
+aux4 aux4 pkger install aux4/encrypter
+```
 
 ## Generate IV and SECRET
 
