@@ -1,0 +1,132 @@
+{
+  "scope": "aux4",
+  "name": "encrypter",
+  "version": "2.1.1",
+  "description": "Encryption facade for aux4 — routes encrypt/decrypt to pluggable provider packages",
+  "license": "Apache-2.0",
+  "tags": [
+    "aux4",
+    "encrypter",
+    "encryption",
+    "crypto",
+    "security"
+  ],
+  "profiles": [
+    {
+      "name": "main",
+      "commands": [
+        {
+          "name": "encrypter",
+          "execute": [
+            "profile:encrypter"
+          ],
+          "help": {
+            "text": "Encryption facade"
+          }
+        }
+      ]
+    },
+    {
+      "name": "encrypter",
+      "commands": [
+        {
+          "name": "encrypt",
+          "execute": [
+            "aux4 aux4 which encrypter provider ${provider} >/dev/null 2>&1 || { echo \"Encryption provider '${provider}' not installed. Install it with: aux4 aux4 pkger install aux4/encrypter-${provider}\" >&2; exit 1; }",
+            "alias:aux4 encrypter provider ${provider} encrypt --secret value(secret) --text value(text)"
+          ],
+          "help": {
+            "text": "Encrypt a text using the selected provider",
+            "variables": [
+              {
+                "name": "provider",
+                "text": "The encryption provider (install aux4/encrypter-<provider>)",
+                "default": "aux4",
+                "env": "AUX4_ENCRYPTER_PROVIDER"
+              },
+              {
+                "name": "secret",
+                "text": "The key input interpreted by the provider",
+                "default": "",
+                "env": "AUX4_SECRET"
+              },
+              {
+                "name": "text",
+                "text": "The plaintext to encrypt (positional arg or stdin)",
+                "default": "",
+                "arg": true
+              }
+            ]
+          }
+        },
+        {
+          "name": "decrypt",
+          "execute": [
+            "aux4 aux4 which encrypter provider ${provider} >/dev/null 2>&1 || { echo \"Encryption provider '${provider}' not installed. Install it with: aux4 aux4 pkger install aux4/encrypter-${provider}\" >&2; exit 1; }",
+            "alias:aux4 encrypter provider ${provider} decrypt --secret value(secret) --text value(text)"
+          ],
+          "help": {
+            "text": "Decrypt a text using the selected provider",
+            "variables": [
+              {
+                "name": "provider",
+                "text": "The encryption provider (install aux4/encrypter-<provider>)",
+                "default": "aux4",
+                "env": "AUX4_ENCRYPTER_PROVIDER"
+              },
+              {
+                "name": "secret",
+                "text": "The key input interpreted by the provider",
+                "default": "",
+                "env": "AUX4_SECRET"
+              },
+              {
+                "name": "text",
+                "text": "The base64 ciphertext to decrypt (positional arg or stdin)",
+                "default": "",
+                "arg": true
+              }
+            ]
+          }
+        },
+        {
+          "name": "generate-secret",
+          "execute": [
+            "aux4 aux4 which encrypter provider ${provider} >/dev/null 2>&1 || { echo \"Encryption provider '${provider}' not installed. Install it with: aux4 aux4 pkger install aux4/encrypter-${provider}\" >&2; exit 1; }",
+            "alias:aux4 encrypter provider ${provider} generate-secret --length value(length)"
+          ],
+          "help": {
+            "text": "Generate a random secret using the selected provider",
+            "variables": [
+              {
+                "name": "provider",
+                "text": "The encryption provider (install aux4/encrypter-<provider>)",
+                "default": "aux4",
+                "env": "AUX4_ENCRYPTER_PROVIDER"
+              },
+              {
+                "name": "length",
+                "text": "The length of the secret",
+                "default": "32",
+                "arg": true
+              }
+            ]
+          }
+        },
+        {
+          "name": "provider",
+          "execute": [
+            "profile:encrypter:provider"
+          ],
+          "help": {
+            "text": "Encryption providers"
+          }
+        }
+      ]
+    },
+    {
+      "name": "encrypter:provider",
+      "commands": []
+    }
+  ]
+}
