@@ -1,7 +1,7 @@
 {
   "scope": "aux4",
   "name": "encrypter",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "description": "Encryption facade for aux4 — routes encrypt/decrypt to pluggable provider packages",
   "license": "Apache-2.0",
   "tags": [
