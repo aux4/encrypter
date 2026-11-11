@@ -32,8 +32,8 @@
         {
           "name": "encrypt",
           "execute": [
-            "aux4 aux4 which encrypter provider ${provider} >/dev/null 2>&1 || { echo \"Encryption provider '${provider}' not installed. Install it with: aux4 aux4 pkger install aux4/encrypter-${provider}\" >&2; exit 1; }",
-            "alias:aux4 encrypter provider ${provider} encrypt --secret value(secret) --text value(text)"
+            "aux4 aux4 which encrypter provider value(provider) >/dev/null 2>&1 || { echo \"Encryption provider \"value(provider)\" not installed. Install it with: aux4 aux4 pkger install aux4/encrypter-\"value(provider) >&2; exit 1; }",
+            "alias:aux4 encrypter provider value(provider) encrypt --secret value(secret) --text value(text)"
           ],
           "help": {
             "text": "Encrypt a text using the selected provider",
@@ -62,8 +62,8 @@
         {
           "name": "decrypt",
           "execute": [
-            "aux4 aux4 which encrypter provider ${provider} >/dev/null 2>&1 || { echo \"Encryption provider '${provider}' not installed. Install it with: aux4 aux4 pkger install aux4/encrypter-${provider}\" >&2; exit 1; }",
-            "alias:aux4 encrypter provider ${provider} decrypt --secret value(secret) --text value(text)"
+            "aux4 aux4 which encrypter provider value(provider) >/dev/null 2>&1 || { echo \"Encryption provider \"value(provider)\" not installed. Install it with: aux4 aux4 pkger install aux4/encrypter-\"value(provider) >&2; exit 1; }",
+            "alias:aux4 encrypter provider value(provider) decrypt --secret value(secret) --text value(text)"
           ],
           "help": {
             "text": "Decrypt a text using the selected provider",
@@ -92,8 +92,8 @@
         {
           "name": "generate-secret",
           "execute": [
-            "aux4 aux4 which encrypter provider ${provider} >/dev/null 2>&1 || { echo \"Encryption provider '${provider}' not installed. Install it with: aux4 aux4 pkger install aux4/encrypter-${provider}\" >&2; exit 1; }",
-            "alias:aux4 encrypter provider ${provider} generate-secret --length value(length)"
+            "aux4 aux4 which encrypter provider value(provider) >/dev/null 2>&1 || { echo \"Encryption provider \"value(provider)\" not installed. Install it with: aux4 aux4 pkger install aux4/encrypter-\"value(provider) >&2; exit 1; }",
+            "alias:aux4 encrypter provider value(provider) generate-secret --length value(length)"
           ],
           "help": {
             "text": "Generate a random secret using the selected provider",
