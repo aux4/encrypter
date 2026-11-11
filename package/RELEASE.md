@@ -6,4 +6,4 @@
   `--provider` value into shell commands. The provider name is now passed with
   `value(provider)`, so a provider name containing shell metacharacters is
   treated as text and can never run a command. The "provider not installed"
-  message is unchanged apart from no longer quoting the name.
+  message is unchanged.

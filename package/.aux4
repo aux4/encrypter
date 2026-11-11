@@ -32,7 +32,7 @@
         {
           "name": "encrypt",
           "execute": [
-            "aux4 aux4 which encrypter provider value(provider) >/dev/null 2>&1 || { echo \"Encryption provider \"value(provider)\" not installed. Install it with: aux4 aux4 pkger install aux4/encrypter-\"value(provider) >&2; exit 1; }",
+            "aux4 aux4 which encrypter provider value(provider) >/dev/null 2>&1 || { echo \"Encryption provider '\"value(provider)\"' not installed. Install it with: aux4 aux4 pkger install aux4/encrypter-\"value(provider) >&2; exit 1; }",
             "alias:aux4 encrypter provider value(provider) encrypt --secret value(secret) --text value(text)"
           ],
           "help": {
@@ -62,7 +62,7 @@
         {
           "name": "decrypt",
           "execute": [
-            "aux4 aux4 which encrypter provider value(provider) >/dev/null 2>&1 || { echo \"Encryption provider \"value(provider)\" not installed. Install it with: aux4 aux4 pkger install aux4/encrypter-\"value(provider) >&2; exit 1; }",
+            "aux4 aux4 which encrypter provider value(provider) >/dev/null 2>&1 || { echo \"Encryption provider '\"value(provider)\"' not installed. Install it with: aux4 aux4 pkger install aux4/encrypter-\"value(provider) >&2; exit 1; }",
             "alias:aux4 encrypter provider value(provider) decrypt --secret value(secret) --text value(text)"
           ],
           "help": {
@@ -92,7 +92,7 @@
         {
           "name": "generate-secret",
           "execute": [
-            "aux4 aux4 which encrypter provider value(provider) >/dev/null 2>&1 || { echo \"Encryption provider \"value(provider)\" not installed. Install it with: aux4 aux4 pkger install aux4/encrypter-\"value(provider) >&2; exit 1; }",
+            "aux4 aux4 which encrypter provider value(provider) >/dev/null 2>&1 || { echo \"Encryption provider '\"value(provider)\"' not installed. Install it with: aux4 aux4 pkger install aux4/encrypter-\"value(provider) >&2; exit 1; }",
             "alias:aux4 encrypter provider value(provider) generate-secret --length value(length)"
           ],
           "help": {
